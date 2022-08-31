@@ -7,23 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F604D3AC28BF9F3800C35649 /* CustomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604D3AB28BF9F3800C35649 /* CustomHeaderView.swift */; };
+		F604D3AE28BFB86E00C35649 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604D3AD28BFB86E00C35649 /* WriteView.swift */; };
+		F604D3B028BFB89600C35649 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604D3AF28BFB89600C35649 /* WriteViewController.swift */; };
 		F611840228BF6C4D00E1E123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611840128BF6C4D00E1E123 /* AppDelegate.swift */; };
 		F611840428BF6C4D00E1E123 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611840328BF6C4D00E1E123 /* SceneDelegate.swift */; };
-		F611840628BF6C4D00E1E123 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611840528BF6C4D00E1E123 /* ViewController.swift */; };
 		F611840928BF6C4D00E1E123 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F611840728BF6C4D00E1E123 /* Main.storyboard */; };
 		F611840B28BF6C4E00E1E123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F611840A28BF6C4E00E1E123 /* Assets.xcassets */; };
 		F611840E28BF6C4E00E1E123 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F611840C28BF6C4E00E1E123 /* LaunchScreen.storyboard */; };
+		F611841A28BF6F4700E1E123 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611841928BF6F4700E1E123 /* BaseView.swift */; };
+		F611841C28BF6FB900E1E123 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611841B28BF6FB900E1E123 /* BaseViewController.swift */; };
+		F611841E28BF70AD00E1E123 /* WalkThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611841D28BF70AD00E1E123 /* WalkThroughView.swift */; };
+		F611842128BF714F00E1E123 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F611842028BF714F00E1E123 /* SnapKit */; };
+		F611842428BF719D00E1E123 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F611842328BF719D00E1E123 /* Realm */; };
+		F611842628BF719D00E1E123 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F611842528BF719D00E1E123 /* RealmSwift */; };
+		F611842928BF740200E1E123 /* WalkThroughViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611842828BF740200E1E123 /* WalkThroughViewController.swift */; };
+		F611842B28BF747000E1E123 /* Transition+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611842A28BF747000E1E123 /* Transition+Extension.swift */; };
+		F611842D28BF74A100E1E123 /* MemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611842C28BF74A100E1E123 /* MemoModel.swift */; };
+		F611842F28BF74B000E1E123 /* MemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611842E28BF74B000E1E123 /* MemoRepository.swift */; };
+		F611843228BF74C400E1E123 /* Protocol+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611843128BF74C400E1E123 /* Protocol+Extension.swift */; };
+		F611843428BF78AD00E1E123 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611843328BF78AD00E1E123 /* MainViewController.swift */; };
+		F611843628BF78BB00E1E123 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611843528BF78BB00E1E123 /* MainView.swift */; };
+		F611843828BF7F6000E1E123 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611843728BF7F6000E1E123 /* MainTableViewCell.swift */; };
+		F611843A28BF7F7E00E1E123 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611843928BF7F7E00E1E123 /* BaseTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F604D3AB28BF9F3800C35649 /* CustomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHeaderView.swift; sourceTree = "<group>"; };
+		F604D3AD28BFB86E00C35649 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
+		F604D3AF28BFB89600C35649 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		F61183FE28BF6C4D00E1E123 /* SeSAC IPhoneMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SeSAC IPhoneMemo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F611840128BF6C4D00E1E123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F611840328BF6C4D00E1E123 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F611840528BF6C4D00E1E123 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F611840828BF6C4D00E1E123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F611840A28BF6C4E00E1E123 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F611840D28BF6C4E00E1E123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F611840F28BF6C4E00E1E123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F611841928BF6F4700E1E123 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		F611841B28BF6FB900E1E123 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		F611841D28BF70AD00E1E123 /* WalkThroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkThroughView.swift; sourceTree = "<group>"; };
+		F611842828BF740200E1E123 /* WalkThroughViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkThroughViewController.swift; sourceTree = "<group>"; };
+		F611842A28BF747000E1E123 /* Transition+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Extension.swift"; sourceTree = "<group>"; };
+		F611842C28BF74A100E1E123 /* MemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModel.swift; sourceTree = "<group>"; };
+		F611842E28BF74B000E1E123 /* MemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepository.swift; sourceTree = "<group>"; };
+		F611843128BF74C400E1E123 /* Protocol+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Protocol+Extension.swift"; sourceTree = "<group>"; };
+		F611843328BF78AD00E1E123 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		F611843528BF78BB00E1E123 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		F611843728BF7F6000E1E123 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		F611843928BF7F7E00E1E123 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +62,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F611842628BF719D00E1E123 /* RealmSwift in Frameworks */,
+				F611842428BF719D00E1E123 /* Realm in Frameworks */,
+				F611842128BF714F00E1E123 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,15 +90,69 @@
 		F611840028BF6C4D00E1E123 /* SeSAC IPhoneMemo */ = {
 			isa = PBXGroup;
 			children = (
-				F611840128BF6C4D00E1E123 /* AppDelegate.swift */,
-				F611840328BF6C4D00E1E123 /* SceneDelegate.swift */,
-				F611840528BF6C4D00E1E123 /* ViewController.swift */,
+				F611843028BF74B600E1E123 /* Extension */,
+				F611841528BF6EFF00E1E123 /* Model */,
+				F611841628BF6F0900E1E123 /* View */,
+				F611841828BF6F1A00E1E123 /* BaseView */,
+				F611841728BF6F0E00E1E123 /* Controllers */,
 				F611840728BF6C4D00E1E123 /* Main.storyboard */,
 				F611840A28BF6C4E00E1E123 /* Assets.xcassets */,
 				F611840C28BF6C4E00E1E123 /* LaunchScreen.storyboard */,
 				F611840F28BF6C4E00E1E123 /* Info.plist */,
 			);
 			path = "SeSAC IPhoneMemo";
+			sourceTree = "<group>";
+		};
+		F611841528BF6EFF00E1E123 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F611842C28BF74A100E1E123 /* MemoModel.swift */,
+				F611842E28BF74B000E1E123 /* MemoRepository.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F611841628BF6F0900E1E123 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F611843528BF78BB00E1E123 /* MainView.swift */,
+				F604D3AD28BFB86E00C35649 /* WriteView.swift */,
+				F611843728BF7F6000E1E123 /* MainTableViewCell.swift */,
+				F604D3AB28BF9F3800C35649 /* CustomHeaderView.swift */,
+				F611841D28BF70AD00E1E123 /* WalkThroughView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F611841728BF6F0E00E1E123 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F611843328BF78AD00E1E123 /* MainViewController.swift */,
+				F604D3AF28BFB89600C35649 /* WriteViewController.swift */,
+				F611842828BF740200E1E123 /* WalkThroughViewController.swift */,
+				F611840128BF6C4D00E1E123 /* AppDelegate.swift */,
+				F611840328BF6C4D00E1E123 /* SceneDelegate.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F611841828BF6F1A00E1E123 /* BaseView */ = {
+			isa = PBXGroup;
+			children = (
+				F611841928BF6F4700E1E123 /* BaseView.swift */,
+				F611841B28BF6FB900E1E123 /* BaseViewController.swift */,
+				F611843928BF7F7E00E1E123 /* BaseTableViewCell.swift */,
+			);
+			path = BaseView;
+			sourceTree = "<group>";
+		};
+		F611843028BF74B600E1E123 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F611842A28BF747000E1E123 /* Transition+Extension.swift */,
+				F611843128BF74C400E1E123 /* Protocol+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +171,11 @@
 			dependencies = (
 			);
 			name = "SeSAC IPhoneMemo";
+			packageProductDependencies = (
+				F611842028BF714F00E1E123 /* SnapKit */,
+				F611842328BF719D00E1E123 /* Realm */,
+				F611842528BF719D00E1E123 /* RealmSwift */,
+			);
 			productName = "SeSAC IPhoneMemo";
 			productReference = F61183FE28BF6C4D00E1E123 /* SeSAC IPhoneMemo.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +204,10 @@
 				Base,
 			);
 			mainGroup = F61183F528BF6C4D00E1E123;
+			packageReferences = (
+				F611841F28BF714F00E1E123 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				F611842228BF719D00E1E123 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = F61183FF28BF6C4D00E1E123 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,9 +235,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F611840628BF6C4D00E1E123 /* ViewController.swift in Sources */,
+				F604D3AE28BFB86E00C35649 /* WriteView.swift in Sources */,
+				F604D3B028BFB89600C35649 /* WriteViewController.swift in Sources */,
+				F611842B28BF747000E1E123 /* Transition+Extension.swift in Sources */,
+				F611843628BF78BB00E1E123 /* MainView.swift in Sources */,
+				F611841C28BF6FB900E1E123 /* BaseViewController.swift in Sources */,
+				F611841E28BF70AD00E1E123 /* WalkThroughView.swift in Sources */,
+				F611843428BF78AD00E1E123 /* MainViewController.swift in Sources */,
+				F611843228BF74C400E1E123 /* Protocol+Extension.swift in Sources */,
+				F611842F28BF74B000E1E123 /* MemoRepository.swift in Sources */,
 				F611840228BF6C4D00E1E123 /* AppDelegate.swift in Sources */,
 				F611840428BF6C4D00E1E123 /* SceneDelegate.swift in Sources */,
+				F611843828BF7F6000E1E123 /* MainTableViewCell.swift in Sources */,
+				F604D3AC28BF9F3800C35649 /* CustomHeaderView.swift in Sources */,
+				F611842928BF740200E1E123 /* WalkThroughViewController.swift in Sources */,
+				F611841A28BF6F4700E1E123 /* BaseView.swift in Sources */,
+				F611843A28BF7F7E00E1E123 /* BaseTableViewCell.swift in Sources */,
+				F611842D28BF74A100E1E123 /* MemoModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +404,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -304,7 +416,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -321,6 +433,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -332,7 +445,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -358,6 +471,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F611841F28BF714F00E1E123 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		F611842228BF719D00E1E123 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F611842028BF714F00E1E123 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F611841F28BF714F00E1E123 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		F611842328BF719D00E1E123 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F611842228BF719D00E1E123 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		F611842528BF719D00E1E123 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F611842228BF719D00E1E123 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F61183F628BF6C4D00E1E123 /* Project object */;
 }
