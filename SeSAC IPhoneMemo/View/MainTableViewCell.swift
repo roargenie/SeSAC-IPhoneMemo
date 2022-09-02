@@ -8,19 +8,19 @@ class MainTableViewCell: BaseTableViewCell {
     let titleLabel: UILabel = {
         let view = UILabel()
         view.font = .systemFont(ofSize: 15, weight: .bold)
-        view.text = "dasfasfdaf"
+        view.textColor = .label
         return view
     }()
     
     let dateLabel: UILabel = {
         let view = UILabel()
-        view.text = "12345"
+        view.textColor = .label
         return view
     }()
     
     let contentLabel: UILabel = {
         let view = UILabel()
-        view.text = "asdfasdfasdfasdfasfd"
+        view.textColor = .label
         return view
     }()
     

@@ -10,7 +10,7 @@ class MainView: BaseView {
         let view = UITableView(frame: .zero, style: .insetGrouped)
         view.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.reuseIdentifier)
         view.register(CustomHeaderView.self, forHeaderFooterViewReuseIdentifier: "sectionHeader")
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBackground
         return view
     }()
     

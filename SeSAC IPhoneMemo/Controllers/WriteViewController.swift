@@ -7,7 +7,7 @@ class WriteViewController: BaseViewController {
     
     var mainView = WriteView()
     
-    
+    let repository = MemoListRepository()
     
     
     override func loadView() {
@@ -23,7 +23,7 @@ class WriteViewController: BaseViewController {
     }
     
     override func configureUI() {
-        
+        mainView.textView.delegate = self
     }
     
     override func setConstraints() {
@@ -44,12 +44,28 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func doneButtonTapped() {
+        guard let text = mainView.textView.text else { return }
         
+        let strArr = text.components(separatedBy: "\n")
+        let contentText = strArr[1 ... strArr.count - 1].joined(separator: " ")
+        if contentText != "" {
+            let task = MemoList(title: strArr[0], content: contentText, regDate: Date())
+            repository.addItem(item: task)
+        } else {
+            let task = MemoList(title: strArr[0], content: "내용 없음", regDate: Date())
+            repository.addItem(item: task)
+        }
+         
+        self.navigationController?.popViewController(animated: true)
     }
     
 }
 
-
+extension WriteViewController: UITextViewDelegate {
+    
+    
+    
+}
 
 
 

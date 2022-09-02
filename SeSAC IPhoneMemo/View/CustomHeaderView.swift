@@ -6,7 +6,7 @@ class CustomHeaderView: UITableViewHeaderFooterView {
     
     let titleLabel: UILabel = {
         let view = UILabel()
-        view.textColor = .white
+        view.textColor = .label
         view.font = .systemFont(ofSize: 25, weight: .heavy)
         return view
     }()

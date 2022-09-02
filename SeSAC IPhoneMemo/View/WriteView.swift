@@ -8,8 +8,8 @@ class WriteView: BaseView {
     let textView: UITextView = {
         let view = UITextView()
         view.textContainerInset = UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25)
-        view.backgroundColor = .black
-        view.textColor = .white
+        view.backgroundColor = .systemBackground
+        view.textColor = .label
         view.font = .systemFont(ofSize: 18, weight: .bold)
         return view
     }()
