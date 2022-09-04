@@ -21,6 +21,24 @@ class WalkThroughViewController: BaseViewController {
         
     }
     
+    override func configureUI() {
+        mainView.doneButton.addTarget(self, action: #selector(isTapped), for: .touchUpInside)
+    }
+    
+    override func setConstraints() {
+        
+    }
+    
+    @objc func isTapped() {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(true, forKey: UserDefaultsManager.isFirstRun)
+        userDefaults.synchronize()
+        self.presentingViewController?.dismiss(animated: false)
+    }
+    
+    
+    
+    
 }
 
 

@@ -8,7 +8,7 @@ class BaseView: UIView {
         super.init(frame: frame)
         configureUI()
         setConstraints()
-        self.backgroundColor = .white
+//        self.backgroundColor = .systemBackground
     }
     
     required init?(coder: NSCoder) {

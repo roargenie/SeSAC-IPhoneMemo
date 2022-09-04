@@ -8,6 +8,12 @@ class MainViewController: BaseViewController {
     
     var mainView = MainView()
     
+    var tutorialVC: WalkThroughViewController = {
+        let view = WalkThroughViewController()
+        
+        return view
+    }()
+    
     let toolBar: UIToolbar = {
         let view = UIToolbar()
         view.backgroundColor = .systemGroupedBackground
@@ -16,18 +22,37 @@ class MainViewController: BaseViewController {
     
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+        
         formatter.dateStyle = .medium
         return formatter
     }()
+    
+//    func checkDate(date: Date) {
+//        let formatter = DateFormatter()
+//        let calendar = Calendar.current
+//        formatter.locale = Locale(identifier: "ko_KR")
+//        if calendar.isDateInToday(date) == true {
+//            formatter.timeStyle = .short
+//        } else if calendar.dateComponents([], from: <#T##Date#>, to: <#T##Date#>)
+//    }
+//
+    var filterText: String? {
+        didSet {
+            mainView.tableView.reloadData()
+        }
+    }
     
     let repository = MemoListRepository()
     
     var tasks: Results<MemoList>! {
         didSet {
             mainView.tableView.reloadData()
+            //fetchRealm()
         }
     }
+    
+    
+    // MARK: - 검색필터 프로퍼티
     
     var filteredArr: [MemoList] = []
     
@@ -38,6 +63,8 @@ class MainViewController: BaseViewController {
         return isActive && isSearchBarHasText
     }
     
+    // MARK: - 뷰 생명주기
+    
     override func loadView() {
         self.view = mainView
     }
@@ -45,18 +72,22 @@ class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setToolbar()
-        setSearchController()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //self.navigationController?.navigationBar.prefersLargeTitles = true
         fetchRealm()
     }
+    
+    
+    // MARK: - UI
     
     override func configureUI() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-        mainView.tableView.rowHeight = 70
+        mainView.tableView.rowHeight = 60
         mainView.addSubview(toolBar)
     }
     
@@ -67,19 +98,30 @@ class MainViewController: BaseViewController {
     }
     
     override func setNavigationBar() {
+        
+        self.navigationController?.navigationBar.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.barTintColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "메모"
-        self.navigationItem.titleView?.tintColor = .systemBackground
-    }
-    
-    func setSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
+        if searchController.isActive == true {
+            self.navigationItem.title = "검색"
+        } else {
+            DispatchQueue.main.async {
+                guard let task = self.tasks else { return }
+                let count = self.numberFormatter(task.count)
+                self.navigationItem.title = "\(count)개의 메모"
+//                print(self.tasks.count)
+//                self.fetchRealm()
+            }
+            
+        }
+        
         searchController.searchBar.placeholder = "검색"
         searchController.searchBar.tintColor = .systemOrange
-        
+        searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchResultsUpdater = self
-        //searchController.delegate = self
+        
         self.navigationItem.searchController = searchController
     }
     
@@ -94,14 +136,32 @@ class MainViewController: BaseViewController {
         toolBar.setItems([flexible, write], animated: true)
     }
     
+    func numberFormatter(_ number: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(for: number)!
+    }
+    
     @objc func writeButtonTapped() {
+        UserDefaultsManager.shared.checkFirstTapped()
+        
         let vc = WriteViewController()
         transition(vc)
+    }
+    
+    func isFirstRun() {
+        let userDefaults = UserDefaults.standard
+        if userDefaults.bool(forKey: UserDefaultsManager.isFirstRun) == false {
+            tutorialVC.modalPresentationStyle = .overCurrentContext
+            self.present(tutorialVC, animated: false)
+        }
     }
     
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    // MARK: - 섹션 갯수
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if self.isFiltering == true {
@@ -110,6 +170,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return repository.fetchFilterTrue() > 0 ? 2 : 1
         }
     }
+    
+    // MARK: - 섹션당 행 갯수
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -131,14 +193,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return repository.fetchFilterFalse()
     }
     
+    // MARK: - 셀에 데이터 표현
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
         
         if self.isFiltering == true {
             let data = filteredArr[indexPath.row]
+            
             cell.titleLabel.text = data.title
             cell.contentLabel.text = data.content
             cell.dateLabel.text = formatter.string(from: data.regDate)
+            
         } else {
             if repository.fetchFilterTrue() > 0 {
                 switch indexPath.section {
@@ -174,6 +240,44 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    // MARK: - 셀 클릭시 작성/수정
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //guard let cell = tableView.cellForRow(at: indexPath) as? MainTableViewCell else { return }
+        let vc = WriteViewController()
+        
+        if self.isFiltering == true {
+            let data = filteredArr[indexPath.row]
+            vc.memoData = data
+        } else {
+            if repository.fetchFilterTrue() > 0 {
+                switch indexPath.section {
+                case 0:
+                    let data = repository.fetchFilterTrueArr()[indexPath.row]
+                    vc.memoData = data
+                case 1:
+                    let data = repository.fetchFilterFalseArr()[indexPath.row]
+                    vc.memoData = data
+                default:
+                    break
+                }
+            } else {
+                switch indexPath.section {
+                case 0:
+                    let data = repository.fetchFilterFalseArr()[indexPath.row]
+                    vc.memoData = data
+                default:
+                    break
+                }
+            }
+        }
+        transition(vc)
+        
+    }
+    
+    // MARK: - 핀 고정
+    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         if self.isFiltering == true {
@@ -181,7 +285,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             
             let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
                 
-                if self.repository.fetchFilterTrue() > 4 {
+                if self.repository.fetchFilterTrue() > 4 {  // else 구문 전에서 오류남. (디바이스에선 잘 된다.)
                     self.showAlertMessage(title: "즐겨찾기는 5개 이상 할 수 없습니다.", button: "확인")
                 } else {
                     self.repository.checkBookMark(item: data)
@@ -252,6 +356,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return UISwipeActionsConfiguration(actions: [])
     }
     
+    // MARK: - 삭제
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         if self.isFiltering == true {
@@ -264,7 +370,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             action.image = UIImage(systemName: "trash.fill")
             action.backgroundColor = .systemRed
             
-            return UISwipeActionsConfiguration(actions: [action])
+            return UISwipeActionsConfiguration(actions: [action])   // 앱 재실행시 데이터가 삭제는 되어있는데 갱신하면서 오류가 나는거 같다??
         } else {
             if repository.fetchFilterTrue() > 0 {
                 switch indexPath.section {
@@ -315,11 +421,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return UISwipeActionsConfiguration(actions: [])
     }
     
+    // MARK: - 섹션별 헤더 표현
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "sectionHeader") as? CustomHeaderView else { return UIView() }
         if self.isFiltering == true {
-            view.titleLabel.text = "검색된 메모"
+            view.titleLabel.text = "\(filteredArr.count)개의 검색된 메모"
         } else {
             if repository.fetchFilterTrue() > 0 {
                 switch section {
@@ -340,11 +448,23 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+    // MARK: - SearchController 조건식 및 업데이트 프로토콜
+
 extension MainViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text?.lowercased() else { return }
+        //filterText = text
+        //let data = filteredArr
+       // let titleAttributedStr = NSMutableAttributedString(string: text)
+        //let contentAttributedStr = NSMutableAttributedString(string: text)
+        //let titleStr = NSMutableAttributedString(string: text).addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
+        //titleAttributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
+        //contentAttributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
         
+        //text.attributedText = titleAttributedStr
+        //cell.contentLabel.attributedText = contentAttributedStr
+        //print(filterText)
         self.filteredArr = repository.titleSearchFilter(text)
         fetchRealm()
 //        print(filteredArr)

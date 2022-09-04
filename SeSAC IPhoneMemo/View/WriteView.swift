@@ -24,6 +24,7 @@ class WriteView: BaseView {
     
     override func configureUI() {
         [textView].forEach { self.addSubview($0) }
+        self.backgroundColor = .systemBackground
     }
     
     override func setConstraints() {

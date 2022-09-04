@@ -24,6 +24,7 @@ class MainView: BaseView {
     
     override func configureUI() {
         [tableView].forEach { self.addSubview($0) }
+        self.backgroundColor = .systemBackground
     }
     
     override func setConstraints() {

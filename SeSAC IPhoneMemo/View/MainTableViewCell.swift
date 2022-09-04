@@ -7,20 +7,22 @@ class MainTableViewCell: BaseTableViewCell {
     
     let titleLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 15, weight: .bold)
+        view.font = .systemFont(ofSize: 18, weight: .bold)
         view.textColor = .label
         return view
     }()
     
     let dateLabel: UILabel = {
         let view = UILabel()
-        view.textColor = .label
+        view.font = .systemFont(ofSize: 15, weight: .regular)
+        view.textColor = .systemGray
         return view
     }()
     
     let contentLabel: UILabel = {
         let view = UILabel()
-        view.textColor = .label
+        view.font = .systemFont(ofSize: 15, weight: .regular)
+        view.textColor = .systemGray
         return view
     }()
     
@@ -29,7 +31,7 @@ class MainTableViewCell: BaseTableViewCell {
         view.axis = .horizontal
         view.alignment = .fill
         view.distribution = .fill
-        view.spacing = 4
+        view.spacing = 10
         return view
     }()
     

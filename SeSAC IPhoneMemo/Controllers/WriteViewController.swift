@@ -1,6 +1,7 @@
 
 
 import UIKit
+import RealmSwift
 
 
 class WriteViewController: BaseViewController {
@@ -9,6 +10,7 @@ class WriteViewController: BaseViewController {
     
     let repository = MemoListRepository()
     
+    var memoData: MemoList?
     
     override func loadView() {
         self.view = mainView
@@ -24,6 +26,8 @@ class WriteViewController: BaseViewController {
     
     override func configureUI() {
         mainView.textView.delegate = self
+        guard let text = memoData?.wholeText else { return }
+        mainView.textView.text = text
     }
     
     override func setConstraints() {
@@ -44,19 +48,31 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func doneButtonTapped() {
-        guard let text = mainView.textView.text else { return }
         
+        let userDefaults = UserDefaults.standard
+        guard let text = mainView.textView.text else { return }
         let strArr = text.components(separatedBy: "\n")
-        let contentText = strArr[1 ... strArr.count - 1].joined(separator: " ")
-        if contentText != "" {
-            let task = MemoList(title: strArr[0], content: contentText, regDate: Date())
-            repository.addItem(item: task)
+        let titleText = strArr[0]
+        let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
+        
+        if userDefaults.bool(forKey: UserDefaultsManager.isFirstTapped) == true {
+            
+            if contentText != "" {
+                let task = MemoList(title: titleText, content: contentText, wholeText: text, regDate: Date())
+                repository.addItem(item: task)
+            } else {
+                let task = MemoList(title: titleText, content: "내용 없음", wholeText: text, regDate: Date())
+                repository.addItem(item: task)
+            }
+            UserDefaultsManager.shared.checkFirstTapped()
+//            dump(UserDefaults.standard.bool(forKey: "FirstTapped"))
+            self.navigationController?.popViewController(animated: true)
         } else {
-            let task = MemoList(title: strArr[0], content: "내용 없음", regDate: Date())
-            repository.addItem(item: task)
+            guard let memoData = memoData else { return }
+
+            repository.updateItem(item: memoData, title: titleText, content: contentText, wholeText: text)
+            self.navigationController?.popViewController(animated: true)
         }
-         
-        self.navigationController?.popViewController(animated: true)
     }
     
 }

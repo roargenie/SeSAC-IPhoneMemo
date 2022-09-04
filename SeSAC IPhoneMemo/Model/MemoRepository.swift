@@ -14,10 +14,11 @@ protocol MemoListRepositoryType {
     func titleSearchFilter(_ text: String) -> [MemoList]
     func addItem(item: MemoList)
     func deleteItem(item: MemoList)
+    func updateItem(item: MemoList, title: String, content: String, wholeText: String)
     func checkBookMark(item: MemoList)
 }
 
-class MemoListRepository: MemoListRepositoryType {
+final class MemoListRepository: MemoListRepositoryType {
     
     let localRealm = try! Realm()
     
@@ -49,10 +50,6 @@ class MemoListRepository: MemoListRepositoryType {
         return localRealm.objects(MemoList.self).filter { $0.title.localizedCaseInsensitiveContains(text) || $0.content.localizedCaseInsensitiveContains(text)}
     }
     
-//    func contentSearchFilter() -> [MemoList] {
-//        return
-//    }
-    
     func addItem(item: MemoList) {
         do {
             try localRealm.write {
@@ -67,6 +64,19 @@ class MemoListRepository: MemoListRepositoryType {
         do {
             try localRealm.write {
                 localRealm.delete(item)
+            }
+        } catch {
+            print("error")
+        }
+    }
+    
+    func updateItem(item: MemoList, title: String, content: String, wholeText: String) {
+        do {
+            try localRealm.write {
+                item.title = title
+                item.content = content
+                item.wholeText = wholeText
+                item.regDate = Date()
             }
         } catch {
             print("error")

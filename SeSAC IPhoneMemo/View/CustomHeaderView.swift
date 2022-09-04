@@ -23,6 +23,7 @@ class CustomHeaderView: UITableViewHeaderFooterView {
     
     func configureUI() {
         contentView.addSubview(titleLabel)
+        self.backgroundColor = .systemBackground
     }
     
     func setConstraints() {
