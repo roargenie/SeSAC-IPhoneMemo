@@ -4,6 +4,10 @@ import UIKit
 import RealmSwift
 import SnapKit
 
+
+
+
+
 class MainViewController: BaseViewController {
     
     var mainView = MainView()
@@ -19,23 +23,7 @@ class MainViewController: BaseViewController {
         view.backgroundColor = .systemGroupedBackground
         return view
     }()
-    
-    let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        
-        formatter.dateStyle = .medium
-        return formatter
-    }()
-    
-//    func checkDate(date: Date) {
-//        let formatter = DateFormatter()
-//        let calendar = Calendar.current
-//        formatter.locale = Locale(identifier: "ko_KR")
-//        if calendar.isDateInToday(date) == true {
-//            formatter.timeStyle = .short
-//        } else if calendar.dateComponents([], from: <#T##Date#>, to: <#T##Date#>)
-//    }
-//
+
     var filterText: String?
     
     let repository = MemoListRepository()
@@ -209,7 +197,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             //cell.contentLabel.attributedText = contentAttributedStr
             cell.titleLabel.text = data.title
             cell.contentLabel.text = data.content
-            cell.dateLabel.text = formatter.string(from: data.regDate)
+            cell.dateLabel.text = Date.dateChecking(data.regDate)()
             
         } else {
             if repository.fetchFilterTrue() > 0 {
@@ -219,13 +207,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     cell.titleLabel.text = data.title
                     cell.contentLabel.text = data.content
-                    cell.dateLabel.text = formatter.string(from: data.regDate)
+                    cell.dateLabel.text = Date.dateChecking(data.regDate)()
                 case 1:
                     let data = repository.fetchFilterFalseArr()[indexPath.row]
                     
                     cell.titleLabel.text = data.title
                     cell.contentLabel.text = data.content
-                    cell.dateLabel.text = formatter.string(from: data.regDate)
+                    cell.dateLabel.text = Date.dateChecking(data.regDate)()
                 default:
                     break
                 }
@@ -236,7 +224,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     cell.titleLabel.text = data.title
                     cell.contentLabel.text = data.content
-                    cell.dateLabel.text = formatter.string(from: data.regDate)
+                    cell.dateLabel.text = Date.dateChecking(data.regDate)()
                 default:
                     break
                 }

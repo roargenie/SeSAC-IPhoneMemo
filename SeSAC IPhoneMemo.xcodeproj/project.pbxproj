@@ -11,6 +11,7 @@
 		F604D3AE28BFB86E00C35649 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604D3AD28BFB86E00C35649 /* WriteView.swift */; };
 		F604D3B028BFB89600C35649 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604D3AF28BFB89600C35649 /* WriteViewController.swift */; };
 		F604D3BE28C409BC00C35649 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604D3BD28C409BC00C35649 /* UserDefaultsManager.swift */; };
+		F604D3C028C5365500C35649 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604D3BF28C5365500C35649 /* DateExtension.swift */; };
 		F611840228BF6C4D00E1E123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611840128BF6C4D00E1E123 /* AppDelegate.swift */; };
 		F611840428BF6C4D00E1E123 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611840328BF6C4D00E1E123 /* SceneDelegate.swift */; };
 		F611840928BF6C4D00E1E123 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F611840728BF6C4D00E1E123 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 		F604D3AD28BFB86E00C35649 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		F604D3AF28BFB89600C35649 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		F604D3BD28C409BC00C35649 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		F604D3BF28C5365500C35649 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		F61183FE28BF6C4D00E1E123 /* SeSAC IPhoneMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SeSAC IPhoneMemo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F611840128BF6C4D00E1E123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F611840328BF6C4D00E1E123 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			children = (
 				F611842A28BF747000E1E123 /* Transition+Extension.swift */,
 				F611843128BF74C400E1E123 /* Protocol+Extension.swift */,
+				F604D3BF28C5365500C35649 /* DateExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				F611842B28BF747000E1E123 /* Transition+Extension.swift in Sources */,
 				F611843628BF78BB00E1E123 /* MainView.swift in Sources */,
 				F611841C28BF6FB900E1E123 /* BaseViewController.swift in Sources */,
+				F604D3C028C5365500C35649 /* DateExtension.swift in Sources */,
 				F611841E28BF70AD00E1E123 /* WalkThroughView.swift in Sources */,
 				F611843428BF78AD00E1E123 /* MainViewController.swift in Sources */,
 				F611843228BF74C400E1E123 /* Protocol+Extension.swift in Sources */,

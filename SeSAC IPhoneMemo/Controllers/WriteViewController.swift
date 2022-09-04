@@ -28,7 +28,7 @@ class WriteViewController: BaseViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+        backButtonTapped()
     }
     
     override func configureUI() {
@@ -61,21 +61,67 @@ class WriteViewController: BaseViewController {
         
         if userDefaults.bool(forKey: UserDefaultsManager.isFirstTapped) == true {
             
-            if contentText != "" {
-                let task = MemoList(title: titleText, content: contentText, wholeText: text, regDate: Date())
-                repository.addItem(item: task)
+            if text != "" {
+                if titleText != "" || contentText != "" {
+                    let task = MemoList(title: titleText, content: contentText, wholeText: text, regDate: Date())
+                    repository.addItem(item: task)
+                } else {
+                    let task = MemoList(title: titleText, content: "내용 없음", wholeText: text, regDate: Date())
+                    repository.addItem(item: task)
+                }
+                UserDefaultsManager.shared.checkFirstTapped()
+                self.navigationController?.popViewController(animated: true)
             } else {
-                let task = MemoList(title: titleText, content: "내용 없음", wholeText: text, regDate: Date())
-                repository.addItem(item: task)
+                self.navigationController?.popViewController(animated: true)
             }
-            UserDefaultsManager.shared.checkFirstTapped()
-//            dump(UserDefaults.standard.bool(forKey: "FirstTapped"))
-            self.navigationController?.popViewController(animated: true)
+            
         } else {
             guard let memoData = memoData else { return }
-
-            repository.updateItem(item: memoData, title: titleText, content: contentText, wholeText: text)
-            self.navigationController?.popViewController(animated: true)
+            
+            if text != "" {
+                repository.deleteItem(item: memoData)
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                repository.updateItem(item: memoData, title: titleText, content: contentText, wholeText: text)
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    
+    func backButtonTapped() {
+        
+        let userDefaults = UserDefaults.standard
+        guard let text = mainView.textView.text else { return }
+        
+        if userDefaults.bool(forKey: UserDefaultsManager.isFirstTapped) == true {
+            
+            if text != "" || text != " " {
+                let strArr = text.components(separatedBy: "\n")
+                let titleText = strArr[0]
+                let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
+                
+                let task = MemoList(title: titleText, content: contentText, wholeText: text, regDate: Date())
+                repository.addItem(item: task)
+                
+                UserDefaultsManager.shared.checkFirstTapped()
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
+            
+        } else {
+            guard let memoData = memoData else { return }
+            
+            if text != "" {
+                repository.deleteItem(item: memoData)
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                let strArr = text.components(separatedBy: "\n")
+                let titleText = strArr[0]
+                let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
+                repository.updateItem(item: memoData, title: titleText, content: contentText, wholeText: text)
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     
