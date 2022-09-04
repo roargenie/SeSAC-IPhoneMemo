@@ -18,10 +18,17 @@ class WriteViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
     }
     
     override func configureUI() {
@@ -35,12 +42,9 @@ class WriteViewController: BaseViewController {
     }
     
     override func setNavigationBar() {
-        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareButtonTapped))
-        let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(doneButtonTapped))
-        shareButton.tintColor = .systemOrange
-        doneButton.tintColor = .systemOrange
-        navigationItem.rightBarButtonItems = [doneButton, shareButton]
-        //self.navigationController?.navigationBar.prefersLargeTitles = false
+        
+        self.navigationController?.navigationBar.tintColor = .systemOrange
+        
     }
     
     @objc func shareButtonTapped() {
@@ -79,7 +83,11 @@ class WriteViewController: BaseViewController {
 
 extension WriteViewController: UITextViewDelegate {
     
-    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareButtonTapped))
+        let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(doneButtonTapped))
+        navigationItem.rightBarButtonItems = [doneButton, shareButton]
+    }
     
 }
 

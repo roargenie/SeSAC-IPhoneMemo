@@ -36,18 +36,13 @@ class MainViewController: BaseViewController {
 //        } else if calendar.dateComponents([], from: <#T##Date#>, to: <#T##Date#>)
 //    }
 //
-    var filterText: String? {
-        didSet {
-            mainView.tableView.reloadData()
-        }
-    }
+    var filterText: String?
     
     let repository = MemoListRepository()
     
     var tasks: Results<MemoList>! {
         didSet {
             mainView.tableView.reloadData()
-            //fetchRealm()
         }
     }
     
@@ -87,7 +82,8 @@ class MainViewController: BaseViewController {
     override func configureUI() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-        mainView.tableView.rowHeight = 60
+        mainView.tableView.keyboardDismissMode = .onDrag
+        mainView.tableView.rowHeight = 65
         mainView.addSubview(toolBar)
     }
     
@@ -103,6 +99,7 @@ class MainViewController: BaseViewController {
         self.navigationController?.navigationBar.barTintColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
         let searchController = UISearchController(searchResultsController: nil)
+        searchController.delegate = self
         if searchController.isActive == true {
             self.navigationItem.title = "검색"
         } else {
@@ -146,6 +143,7 @@ class MainViewController: BaseViewController {
         UserDefaultsManager.shared.checkFirstTapped()
         
         let vc = WriteViewController()
+        vc.mainView.textView.becomeFirstResponder()
         transition(vc)
     }
     
@@ -200,7 +198,15 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         if self.isFiltering == true {
             let data = filteredArr[indexPath.row]
+            //let data = filteredArr
+           // let titleAttributedStr = NSMutableAttributedString(string: text)
+            //let contentAttributedStr = NSMutableAttributedString(string: text)
+            //let titleStr = NSMutableAttributedString(string: text).addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
+            //titleAttributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
+            //contentAttributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
             
+            //text.attributedText = titleAttributedStr
+            //cell.contentLabel.attributedText = contentAttributedStr
             cell.titleLabel.text = data.title
             cell.contentLabel.text = data.content
             cell.dateLabel.text = formatter.string(from: data.regDate)
@@ -249,15 +255,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         if self.isFiltering == true {
             let data = filteredArr[indexPath.row]
+            self.navigationItem.backButtonTitle = "검색"
             vc.memoData = data
         } else {
             if repository.fetchFilterTrue() > 0 {
                 switch indexPath.section {
                 case 0:
                     let data = repository.fetchFilterTrueArr()[indexPath.row]
+                    self.navigationItem.backButtonTitle = "메모"
                     vc.memoData = data
                 case 1:
                     let data = repository.fetchFilterFalseArr()[indexPath.row]
+                    self.navigationItem.backButtonTitle = "메모"
                     vc.memoData = data
                 default:
                     break
@@ -266,6 +275,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 switch indexPath.section {
                 case 0:
                     let data = repository.fetchFilterFalseArr()[indexPath.row]
+                    self.navigationItem.backButtonTitle = "메모"
                     vc.memoData = data
                 default:
                     break
@@ -285,12 +295,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             
             let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
                 
-                if self.repository.fetchFilterTrue() > 4 {  // else 구문 전에서 오류남. (디바이스에선 잘 된다.)
-                    self.showAlertMessage(title: "즐겨찾기는 5개 이상 할 수 없습니다.", button: "확인")
-                } else {
+//                if self.repository.fetchFilterTrue() > 4 {  // else 구문 전에서 오류남.
+//                    self.showAlertMessage(title: "즐겨찾기는 5개 이상 할 수 없습니다.", button: "확인")
+//                } else {
                     self.repository.checkBookMark(item: data)
                     self.fetchRealm()
-                }
+//                }
             }
             
             let image = data.bookMark ? "pin.slash.fill" : "pin.fill"
@@ -364,8 +374,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             let data = filteredArr[indexPath.row]
             
             let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
-                self.repository.deleteItem(item: data)
-                self.fetchRealm()
+                self.showAlertMessageWithCancel(title: "삭제 하시겠습니까?", button: "확인") { action in
+                    self.repository.deleteItem(item: data)
+                    
+                    //self.fetchRealm()
+                }
             }
             action.image = UIImage(systemName: "trash.fill")
             action.backgroundColor = .systemRed
@@ -378,8 +391,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                     let data = repository.fetchFilterTrueArr()[indexPath.row]
                     
                     let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
-                        self.repository.deleteItem(item: data)
-                        self.fetchRealm()
+                        self.showAlertMessageWithCancel(title: "삭제 하시겠습니까?", button: "확인") { action in
+                            self.repository.deleteItem(item: data)
+                            self.fetchRealm()
+                        }
                     }
                     action.image = UIImage(systemName: "trash.fill")
                     action.backgroundColor = .systemRed
@@ -389,8 +404,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                     let data = repository.fetchFilterFalseArr()[indexPath.row]
                     
                     let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
-                        self.repository.deleteItem(item: data)
-                        self.fetchRealm()
+                        self.showAlertMessageWithCancel(title: "삭제 하시겠습니까?", button: "확인") { action in
+                            self.repository.deleteItem(item: data)
+                            self.fetchRealm()
+                        }
                     }
                     action.image = UIImage(systemName: "trash.fill")
                     action.backgroundColor = .systemRed
@@ -405,8 +422,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                     let data = repository.fetchFilterFalseArr()[indexPath.row]
                     
                     let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
-                        self.repository.deleteItem(item: data)
-                        self.fetchRealm()
+                        self.showAlertMessageWithCancel(title: "삭제 하시겠습니까?", button: "확인") { action in
+                            self.repository.deleteItem(item: data)
+                            self.fetchRealm()
+                        }
                     }
                     action.image = UIImage(systemName: "trash.fill")
                     action.backgroundColor = .systemRed
@@ -446,29 +465,25 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return view
     }
     
+    
 }
 
     // MARK: - SearchController 조건식 및 업데이트 프로토콜
 
-extension MainViewController: UISearchResultsUpdating {
+extension MainViewController: UISearchResultsUpdating, UISearchControllerDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text?.lowercased() else { return }
         //filterText = text
-        //let data = filteredArr
-       // let titleAttributedStr = NSMutableAttributedString(string: text)
-        //let contentAttributedStr = NSMutableAttributedString(string: text)
-        //let titleStr = NSMutableAttributedString(string: text).addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
-        //titleAttributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
-        //contentAttributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
         
-        //text.attributedText = titleAttributedStr
-        //cell.contentLabel.attributedText = contentAttributedStr
         //print(filterText)
         self.filteredArr = repository.titleSearchFilter(text)
         fetchRealm()
-//        print(filteredArr)
+        print(filteredArr)
 //        dump(text)
     }
+    
+    
+    
     
 }

@@ -24,6 +24,9 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="b2d-vF-8rp"/>
                                     <barButtonItem systemItem="compose" id="Jqf-7c-YhS">
                                         <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <connections>
+                                            <segue destination="QPR-ru-Efs" kind="push" id="Wkj-im-0p3"/>
+                                        </connections>
                                     </barButtonItem>
                                 </items>
                             </toolbar>
@@ -31,11 +34,34 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="qyT-7b-67Y"/>
+                    <navigationItem key="navigationItem" id="qyT-7b-67Y">
+                        <barButtonItem key="backBarButtonItem" title="검색" id="sRO-iX-wiJ"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1050.7246376811595" y="138.61607142857142"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tAB-RT-iZE">
+            <objects>
+                <viewController id="QPR-ru-Efs" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gjM-jG-Myk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="dse-dT-IZy"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="2k6-bV-9i1">
+                        <barButtonItem key="backBarButtonItem" title="검색" id="3ic-qR-CYR"/>
+                        <barButtonItem key="leftBarButtonItem" title="검색" image="chevron.backward" catalog="system" id="95f-aq-PQf">
+                            <color key="tintColor" systemColor="systemOrangeColor"/>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="drS-7a-FfU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1883" y="142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8xS-Fy-r9U">
@@ -63,6 +89,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
