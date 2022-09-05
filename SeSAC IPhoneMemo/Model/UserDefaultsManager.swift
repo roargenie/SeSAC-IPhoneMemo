@@ -12,6 +12,7 @@ final class UserDefaultsManager {
     
     static let isFirstRun = "FirstRun"
     static let isFirstTapped = "FirstTapped"
+    static let isBackButtonTapped = "BackButtonTapped"
     
     func checkFirstRun() {
         

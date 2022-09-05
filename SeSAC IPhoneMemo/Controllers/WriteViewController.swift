@@ -12,6 +12,8 @@ class WriteViewController: BaseViewController {
     
     var memoData: MemoList?
     
+    var tasks: Results<MemoList>!
+    
     override func loadView() {
         self.view = mainView
     }
@@ -26,9 +28,20 @@ class WriteViewController: BaseViewController {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        fetchRealm()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        backButtonTapped()
+//        if UserDefaults.standard.bool(forKey: UserDefaultsManager.isBackButtonTapped) == true {
+//            backButtonTapped()
+//        } else {
+//
+//        }
+        
+        //fetchRealm()
     }
     
     override func configureUI() {
@@ -42,9 +55,11 @@ class WriteViewController: BaseViewController {
     }
     
     override func setNavigationBar() {
-        
         self.navigationController?.navigationBar.tintColor = .systemOrange
-        
+    }
+    
+    func fetchRealm() {
+        tasks = repository.fetch()
     }
     
     @objc func shareButtonTapped() {
@@ -54,36 +69,61 @@ class WriteViewController: BaseViewController {
     @objc func doneButtonTapped() {
         
         let userDefaults = UserDefaults.standard
+        
         guard let text = mainView.textView.text else { return }
+        
         let strArr = text.components(separatedBy: "\n")
-        let titleText = strArr[0]
-        let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
         
         if userDefaults.bool(forKey: UserDefaultsManager.isFirstTapped) == true {
             
-            if text != "" {
-                if titleText != "" || contentText != "" {
-                    let task = MemoList(title: titleText, content: contentText, wholeText: text, regDate: Date())
-                    repository.addItem(item: task)
-                } else {
-                    let task = MemoList(title: titleText, content: "내용 없음", wholeText: text, regDate: Date())
-                    repository.addItem(item: task)
-                }
-                UserDefaultsManager.shared.checkFirstTapped()
+            if strArr.count > 1 {
+                let titleText = strArr[0]
+                
+                let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
+                
+                let task = MemoList(title: titleText, content: contentText, wholeText: text, regDate: Date())
+                repository.addItem(item: task)
+                //UserDefaultsManager.shared.checkFirstTapped()
                 self.navigationController?.popViewController(animated: true)
+                print(#function, "=============1")
+                
+            } else if strArr.count == 1 {
+                let titleText = strArr[0]
+                
+                let task = MemoList(title: titleText, content: "내용 없음", wholeText: text, regDate: Date())
+                repository.addItem(item: task)
+                //UserDefaultsManager.shared.checkFirstTapped()
+                self.navigationController?.popViewController(animated: true)
+                print(#function, "=============2")
             } else {
+                //UserDefaultsManager.shared.checkFirstTapped()
                 self.navigationController?.popViewController(animated: true)
+                print(#function, "=============3")
             }
             
         } else {
             guard let memoData = memoData else { return }
-            
-            if text != "" {
-                repository.deleteItem(item: memoData)
-                self.navigationController?.popViewController(animated: true)
-            } else {
+            if strArr.count > 1 {
+                let titleText = strArr[0]
+                
+                let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
+                
                 repository.updateItem(item: memoData, title: titleText, content: contentText, wholeText: text)
+                //UserDefaultsManager.shared.checkFirstTapped()
                 self.navigationController?.popViewController(animated: true)
+                print(#function, "=============1 업데이트")
+            } else if strArr.count == 1 {
+                let titleText = strArr[0]
+                
+                repository.updateItem(item: memoData, title: titleText, content: "내용 없음", wholeText: text)
+                //UserDefaultsManager.shared.checkFirstTapped()
+                self.navigationController?.popViewController(animated: true)
+                print(#function, "=============2 업데이트")
+            } else {
+                repository.deleteItem(item: memoData)
+                //UserDefaultsManager.shared.checkFirstTapped()
+                self.navigationController?.popViewController(animated: true)
+                print(#function, "=============3 업데이트")
             }
         }
     }
@@ -91,39 +131,67 @@ class WriteViewController: BaseViewController {
     func backButtonTapped() {
         
         let userDefaults = UserDefaults.standard
+        userDefaults.set(true, forKey: UserDefaultsManager.isBackButtonTapped)
+        userDefaults.synchronize()
         guard let text = mainView.textView.text else { return }
+        let strArr = text.components(separatedBy: "\n")
         
-        if userDefaults.bool(forKey: UserDefaultsManager.isFirstTapped) == true {
-            
-            if text != "" || text != " " {
-                let strArr = text.components(separatedBy: "\n")
-                let titleText = strArr[0]
-                let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
+        if UserDefaults.standard.bool(forKey: UserDefaultsManager.isBackButtonTapped) == true {
+            if userDefaults.bool(forKey: UserDefaultsManager.isFirstTapped) == true {
                 
-                let task = MemoList(title: titleText, content: contentText, wholeText: text, regDate: Date())
-                repository.addItem(item: task)
+                if strArr.count > 1 {
+                    let titleText = strArr[0]
+                    
+                    let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
+                    
+                    let task = MemoList(title: titleText, content: contentText, wholeText: text, regDate: Date())
+                    repository.addItem(item: task)
+                    //UserDefaultsManager.shared.checkFirstTapped()
+                    self.navigationController?.popViewController(animated: true)
+                    print(#function, "=============1")
+                    
+                } else if strArr.count == 1 && text != " " && text != "" {
+                    let titleText = strArr[0]
+                    
+                    let task = MemoList(title: titleText, content: "내용 없음", wholeText: text, regDate: Date())
+                    repository.addItem(item: task)
+                    //UserDefaultsManager.shared.checkFirstTapped()
+                    self.navigationController?.popViewController(animated: true)
+                    print(#function, "=============2")
+                } else {
+                    //UserDefaultsManager.shared.checkFirstTapped()
+                    self.navigationController?.popViewController(animated: true)
+                    print(#function, "=============3")
+                }
                 
-                UserDefaultsManager.shared.checkFirstTapped()
-                self.navigationController?.popViewController(animated: true)
             } else {
-                self.navigationController?.popViewController(animated: true)
-            }
-            
-        } else {
-            guard let memoData = memoData else { return }
-            
-            if text != "" {
-                repository.deleteItem(item: memoData)
-                self.navigationController?.popViewController(animated: true)
-            } else {
-                let strArr = text.components(separatedBy: "\n")
-                let titleText = strArr[0]
-                let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
-                repository.updateItem(item: memoData, title: titleText, content: contentText, wholeText: text)
-                self.navigationController?.popViewController(animated: true)
+                guard let memoData = memoData else { return }
+                if strArr.count > 1 {
+                    let titleText = strArr[0]
+                    
+                    let contentText = strArr[1...strArr.count - 1].joined(separator: " ")
+                    
+                    repository.updateItem(item: memoData, title: titleText, content: contentText, wholeText: text)
+                    //UserDefaultsManager.shared.checkFirstTapped()
+                    self.navigationController?.popViewController(animated: true)
+                    print(#function, "=============1 업데이트")
+                } else if strArr.count == 1 {
+                    let titleText = strArr[0]
+                    
+                    repository.updateItem(item: memoData, title: titleText, content: "내용 없음", wholeText: text)
+                    //UserDefaultsManager.shared.checkFirstTapped()
+                    self.navigationController?.popViewController(animated: true)
+                    print(#function, "=============2 업데이트")
+                } else {
+                    repository.deleteItem(item: memoData)
+                    //UserDefaultsManager.shared.checkFirstTapped()
+                    self.navigationController?.popViewController(animated: true)
+                    print(#function, "=============3 업데이트")
+                }
             }
         }
-    }
+        }
+        
     
 }
 
@@ -133,7 +201,9 @@ extension WriteViewController: UITextViewDelegate {
         let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareButtonTapped))
         let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(doneButtonTapped))
         navigationItem.rightBarButtonItems = [doneButton, shareButton]
+        
     }
+    
     
 }
 

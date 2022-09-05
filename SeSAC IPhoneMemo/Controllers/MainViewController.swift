@@ -55,13 +55,13 @@ class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setToolbar()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //self.navigationController?.navigationBar.prefersLargeTitles = true
         fetchRealm()
+        mainView.tableView.reloadData()
     }
     
     
@@ -128,8 +128,9 @@ class MainViewController: BaseViewController {
     }
     
     @objc func writeButtonTapped() {
-        UserDefaultsManager.shared.checkFirstTapped()
-        
+        UserDefaults.standard.set(true, forKey: UserDefaultsManager.isFirstTapped)
+        UserDefaults.standard.synchronize()
+        print(UserDefaults.standard.bool(forKey: "FirstTapped"))
         let vc = WriteViewController()
         vc.mainView.textView.becomeFirstResponder()
         transition(vc)
@@ -283,12 +284,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             
             let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
                 
-//                if self.repository.fetchFilterTrue() > 4 {  // else 구문 전에서 오류남.
-//                    self.showAlertMessage(title: "즐겨찾기는 5개 이상 할 수 없습니다.", button: "확인")
-//                } else {
+                if self.repository.fetchFilterTrue() > 4 {
+                    self.showAlertMessage(title: "즐겨찾기는 5개 이상 할 수 없습니다.", button: "확인")
+                } else {
                     self.repository.checkBookMark(item: data)
                     self.fetchRealm()
-//                }
+                }
             }
             
             let image = data.bookMark ? "pin.slash.fill" : "pin.fill"
@@ -365,7 +366,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 self.showAlertMessageWithCancel(title: "삭제 하시겠습니까?", button: "확인") { action in
                     self.repository.deleteItem(item: data)
                     
-                    //self.fetchRealm()
+                    self.fetchRealm()
                 }
             }
             action.image = UIImage(systemName: "trash.fill")
