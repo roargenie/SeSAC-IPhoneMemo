@@ -17,9 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xnn-Fw-Z0e">
-                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xnn-Fw-Z0e">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="b2d-vF-8rp"/>
                                     <barButtonItem systemItem="compose" id="Jqf-7c-YhS">
@@ -30,9 +29,32 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qLi-AR-EsH">
+                                <rect key="frame" x="0.0" y="140" width="414" height="673"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="iSJ-MW-X17">
+                                        <rect key="frame" x="20" y="49.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iSJ-MW-X17" id="mgE-6d-O9b">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="qLi-AR-EsH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="HF2-rh-PZc"/>
+                            <constraint firstItem="Xnn-Fw-Z0e" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="RUk-Ea-b4I"/>
+                            <constraint firstItem="Xnn-Fw-Z0e" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="SeR-en-m8n"/>
+                            <constraint firstItem="Xnn-Fw-Z0e" firstAttribute="top" secondItem="qLi-AR-EsH" secondAttribute="bottom" id="Tje-rb-lKj"/>
+                            <constraint firstItem="Xnn-Fw-Z0e" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="VPf-8d-0fu"/>
+                            <constraint firstItem="qLi-AR-EsH" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="XlV-Kn-YDl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qLi-AR-EsH" secondAttribute="trailing" id="gUE-cS-8wH"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qyT-7b-67Y">
                         <barButtonItem key="backBarButtonItem" title="검색" id="sRO-iX-wiJ"/>

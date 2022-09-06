@@ -7,6 +7,7 @@ import RealmSwift
 
 protocol MemoListRepositoryType {
     func fetch() -> Results<MemoList>
+    func fetchCount() -> Int
     func fetchFilterTrue() -> Int
     func fetchFilterFalse() -> Int
     func fetchFilterTrueArr() -> Results<MemoList>
@@ -24,6 +25,10 @@ final class MemoListRepository: MemoListRepositoryType {
     
     func fetch() -> Results<MemoList> {
         return localRealm.objects(MemoList.self).sorted(byKeyPath: "regDate", ascending: true)
+    }
+    
+    func fetchCount() -> Int {
+        return localRealm.objects(MemoList.self).count
     }
     
     func fetchFilterTrue() -> Int {
@@ -48,6 +53,10 @@ final class MemoListRepository: MemoListRepositoryType {
     
     func titleSearchFilter(_ text: String) -> [MemoList] {
         return localRealm.objects(MemoList.self).filter { $0.title.localizedCaseInsensitiveContains(text) || $0.content.localizedCaseInsensitiveContains(text)}
+    }
+    
+    func fetchSearchResult(text: String) -> Results<MemoList> {
+        return localRealm.objects(MemoList.self).filter("title CONTAINS[c] '\(text)' OR content CONTAINS[c] '\(text)'")//.sorted(byKeyPath: "regDate", ascending: true)
     }
     
     func addItem(item: MemoList) {

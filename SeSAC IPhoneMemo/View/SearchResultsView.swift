@@ -3,15 +3,13 @@
 import UIKit
 
 
-
-class MainView: BaseView {
+class SearchResultsView: BaseView {
     
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
-        view.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.reuseIdentifier)
+        view.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.reuseIdentifier)
         view.register(CustomHeaderView.self, forHeaderFooterViewReuseIdentifier: "sectionHeader")
         view.backgroundColor = .systemBackground
-        view.separatorInset = .zero
         view.keyboardDismissMode = .onDrag
         return view
     }()
@@ -36,4 +34,16 @@ class MainView: BaseView {
         
     }
     
+    
+    
 }
+
+
+
+
+
+
+
+
+
+

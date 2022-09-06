@@ -15,12 +15,16 @@ extension Date {
         switch caseDate {
         case .today:
             formatter.dateFormat = "a hh:mm"
+            formatter.amSymbol = "오전"
+            formatter.pmSymbol = "오후"
             return formatter.string(from: self)
         case .week:
             formatter.dateFormat = "EEEE"
             return formatter.string(from: self)
         case .other:
             formatter.dateFormat = "yyyy.MM.dd a hh:mm"
+            formatter.amSymbol = "오전"
+            formatter.pmSymbol = "오후"
             return formatter.string(from: self)
         }
     }

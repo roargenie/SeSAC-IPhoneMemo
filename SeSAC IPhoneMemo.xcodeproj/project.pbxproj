@@ -32,6 +32,9 @@
 		F611843628BF78BB00E1E123 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611843528BF78BB00E1E123 /* MainView.swift */; };
 		F611843828BF7F6000E1E123 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611843728BF7F6000E1E123 /* MainTableViewCell.swift */; };
 		F611843A28BF7F7E00E1E123 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611843928BF7F7E00E1E123 /* BaseTableViewCell.swift */; };
+		F613053228C7315A002C0E01 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F613053128C7315A002C0E01 /* SearchResultTableViewCell.swift */; };
+		F678B78A28C6B89500C93EEE /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F678B78928C6B89500C93EEE /* SearchResultsViewController.swift */; };
+		F678B78C28C6B8E400C93EEE /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F678B78B28C6B8E400C93EEE /* SearchResultsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +62,9 @@
 		F611843528BF78BB00E1E123 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F611843728BF7F6000E1E123 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		F611843928BF7F7E00E1E123 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		F613053128C7315A002C0E01 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		F678B78928C6B89500C93EEE /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		F678B78B28C6B8E400C93EEE /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,8 +127,10 @@
 			isa = PBXGroup;
 			children = (
 				F611843528BF78BB00E1E123 /* MainView.swift */,
+				F678B78B28C6B8E400C93EEE /* SearchResultsView.swift */,
 				F604D3AD28BFB86E00C35649 /* WriteView.swift */,
 				F611843728BF7F6000E1E123 /* MainTableViewCell.swift */,
+				F613053128C7315A002C0E01 /* SearchResultTableViewCell.swift */,
 				F604D3AB28BF9F3800C35649 /* CustomHeaderView.swift */,
 				F611841D28BF70AD00E1E123 /* WalkThroughView.swift */,
 			);
@@ -133,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				F611843328BF78AD00E1E123 /* MainViewController.swift */,
+				F678B78928C6B89500C93EEE /* SearchResultsViewController.swift */,
 				F604D3AF28BFB89600C35649 /* WriteViewController.swift */,
 				F611842828BF740200E1E123 /* WalkThroughViewController.swift */,
 				F611840128BF6C4D00E1E123 /* AppDelegate.swift */,
@@ -250,12 +259,15 @@
 				F611841E28BF70AD00E1E123 /* WalkThroughView.swift in Sources */,
 				F611843428BF78AD00E1E123 /* MainViewController.swift in Sources */,
 				F611843228BF74C400E1E123 /* Protocol+Extension.swift in Sources */,
+				F678B78A28C6B89500C93EEE /* SearchResultsViewController.swift in Sources */,
 				F611842F28BF74B000E1E123 /* MemoRepository.swift in Sources */,
 				F611840228BF6C4D00E1E123 /* AppDelegate.swift in Sources */,
+				F613053228C7315A002C0E01 /* SearchResultTableViewCell.swift in Sources */,
 				F611840428BF6C4D00E1E123 /* SceneDelegate.swift in Sources */,
 				F611843828BF7F6000E1E123 /* MainTableViewCell.swift in Sources */,
 				F604D3AC28BF9F3800C35649 /* CustomHeaderView.swift in Sources */,
 				F611842928BF740200E1E123 /* WalkThroughViewController.swift in Sources */,
+				F678B78C28C6B8E400C93EEE /* SearchResultsView.swift in Sources */,
 				F604D3BE28C409BC00C35649 /* UserDefaultsManager.swift in Sources */,
 				F611841A28BF6F4700E1E123 /* BaseView.swift in Sources */,
 				F611843A28BF7F7E00E1E123 /* BaseTableViewCell.swift in Sources */,

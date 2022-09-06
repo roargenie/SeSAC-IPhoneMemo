@@ -8,9 +8,11 @@ import SnapKit
 
 
 
-class MainViewController: BaseViewController {
+final class MainViewController: BaseViewController {
     
     var mainView = MainView()
+    
+    let searchResultVC = SearchResultsViewController()
     
     var tutorialVC: WalkThroughViewController = {
         let view = WalkThroughViewController()
@@ -24,13 +26,14 @@ class MainViewController: BaseViewController {
         return view
     }()
 
-    var filterText: String?
+    var filterText: String = ""
     
     let repository = MemoListRepository()
     
     var tasks: Results<MemoList>! {
         didSet {
             mainView.tableView.reloadData()
+            self.navigationItem.title = "\(tasks.count)개의 메모"
         }
     }
     
@@ -64,15 +67,22 @@ class MainViewController: BaseViewController {
         mainView.tableView.reloadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //fetchRealm()
+    }
+    
     
     // MARK: - UI
     
     override func configureUI() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-        mainView.tableView.keyboardDismissMode = .onDrag
         mainView.tableView.rowHeight = 65
         mainView.addSubview(toolBar)
+        searchResultVC.mainView.tableView.delegate = self
+        searchResultVC.mainView.tableView.dataSource = self
+        searchResultVC.mainView.tableView.rowHeight = 65
     }
     
     override func setConstraints() {
@@ -86,20 +96,8 @@ class MainViewController: BaseViewController {
         self.navigationController?.navigationBar.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.barTintColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        let searchController = UISearchController(searchResultsController: nil)
+        let searchController = UISearchController(searchResultsController: searchResultVC)
         searchController.delegate = self
-        if searchController.isActive == true {
-            self.navigationItem.title = "검색"
-        } else {
-            DispatchQueue.main.async {
-                guard let task = self.tasks else { return }
-                let count = self.numberFormatter(task.count)
-                self.navigationItem.title = "\(count)개의 메모"
-//                print(self.tasks.count)
-//                self.fetchRealm()
-            }
-            
-        }
         
         searchController.searchBar.placeholder = "검색"
         searchController.searchBar.tintColor = .systemOrange
@@ -128,6 +126,7 @@ class MainViewController: BaseViewController {
     }
     
     @objc func writeButtonTapped() {
+        UserDefaults.standard.set(true, forKey: UserDefaultsManager.isBackButtonTapped)
         UserDefaults.standard.set(true, forKey: UserDefaultsManager.isFirstTapped)
         UserDefaults.standard.synchronize()
         print(UserDefaults.standard.bool(forKey: "FirstTapped"))
@@ -144,6 +143,13 @@ class MainViewController: BaseViewController {
         }
     }
     
+    func changeFilterdTextColor(_ string: String) -> NSMutableAttributedString {
+        let labelText = (string.lowercased() as NSString).range(of: filterText.lowercased())
+        let attributedString = NSMutableAttributedString.init(string: string)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: labelText)
+        return attributedString
+    }
+    
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
@@ -151,56 +157,42 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - 섹션 갯수
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if self.isFiltering == true {
-            return 1
-        } else {
+        
+        if tableView == mainView.tableView {
             return repository.fetchFilterTrue() > 0 ? 2 : 1
+        } else {
+            return 1
         }
+        
     }
     
     // MARK: - 섹션당 행 갯수
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if self.isFiltering == true {
-            return self.filteredArr.count
-        } else {
+        if tableView == mainView.tableView {
             if repository.fetchFilterTrue() > 0 {
-                switch section {
-                case 0:
+                if section == 0 {
                     return repository.fetchFilterTrue()
-                case 1:
+                } else {
                     return repository.fetchFilterFalse()
-                default:
-                    break
                 }
+            } else {
+                return tasks.count
             }
+        } else {
+            return searchResultVC.tasks.count
         }
         
-        return repository.fetchFilterFalse()
     }
     
     // MARK: - 셀에 데이터 표현
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
         
-        if self.isFiltering == true {
-            let data = filteredArr[indexPath.row]
-            //let data = filteredArr
-           // let titleAttributedStr = NSMutableAttributedString(string: text)
-            //let contentAttributedStr = NSMutableAttributedString(string: text)
-            //let titleStr = NSMutableAttributedString(string: text).addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
-            //titleAttributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
-            //contentAttributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: text))
+        if tableView == mainView.tableView {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
             
-            //text.attributedText = titleAttributedStr
-            //cell.contentLabel.attributedText = contentAttributedStr
-            cell.titleLabel.text = data.title
-            cell.contentLabel.text = data.content
-            cell.dateLabel.text = Date.dateChecking(data.regDate)()
-            
-        } else {
             if repository.fetchFilterTrue() > 0 {
                 switch indexPath.section {
                 case 0:
@@ -230,9 +222,21 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                     break
                 }
             }
+            return cell
+            
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.reuseIdentifier, for: indexPath) as? SearchResultTableViewCell else { return UITableViewCell() }
+            
+            let data = searchResultVC.tasks[indexPath.row]
+            print(data)
+            cell.titleLabel.attributedText = changeFilterdTextColor(data.title)
+            cell.contentLabel.attributedText = changeFilterdTextColor(data.content)
+//            cell.titleLabel.text = data.title
+//            cell.contentLabel.text = data.content
+            cell.dateLabel.text = data.regDate.dateChecking()
+            return cell
         }
         
-        return cell
     }
     
     // MARK: - 셀 클릭시 작성/수정
@@ -241,9 +245,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         //guard let cell = tableView.cellForRow(at: indexPath) as? MainTableViewCell else { return }
         let vc = WriteViewController()
-        
+        UserDefaults.standard.set(false, forKey: UserDefaultsManager.isFirstTapped)
+        UserDefaults.standard.set(true, forKey: UserDefaultsManager.isBackButtonTapped)
+        print(UserDefaults.standard.bool(forKey: UserDefaultsManager.isFirstTapped))
         if self.isFiltering == true {
-            let data = filteredArr[indexPath.row]
+            let data = searchResultVC.tasks[indexPath.row]
             self.navigationItem.backButtonTitle = "검색"
             vc.memoData = data
         } else {
@@ -279,25 +285,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        if self.isFiltering == true {
-            let data = filteredArr[indexPath.row]
-            
-            let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
-                
-                if self.repository.fetchFilterTrue() > 4 {
-                    self.showAlertMessage(title: "즐겨찾기는 5개 이상 할 수 없습니다.", button: "확인")
-                } else {
-                    self.repository.checkBookMark(item: data)
-                    self.fetchRealm()
-                }
-            }
-            
-            let image = data.bookMark ? "pin.slash.fill" : "pin.fill"
-            action.image = UIImage(systemName: image)
-            action.backgroundColor = .systemOrange
-            
-            return UISwipeActionsConfiguration(actions: [action])
-        } else {
+        if tableView == mainView.tableView {
             if repository.fetchFilterTrue() > 0 {
                 switch indexPath.section {
                 case 0:
@@ -350,6 +338,29 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                     break
                 }
             }
+
+        } else {
+            switch indexPath.section {
+            case 0:
+                let data = searchResultVC.tasks[indexPath.row]
+                
+                let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
+                    
+                    if self.repository.fetchFilterTrue() > 4 {
+                        self.showAlertMessage(title: "즐겨찾기는 5개 이상 할 수 없습니다.", button: "확인")
+                    } else {
+                        self.repository.checkBookMark(item: data)
+                        self.searchResultVC.fetchRealm()
+                        self.fetchRealm()
+                    }
+                }
+                let image = data.bookMark ? "pin.slash.fill" : "pin.fill"
+                action.image = UIImage(systemName: image)
+                action.backgroundColor = .systemOrange
+                return UISwipeActionsConfiguration(actions: [action])
+            default:
+                break
+            }
         }
         
         return UISwipeActionsConfiguration(actions: [])
@@ -359,21 +370,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        if self.isFiltering == true {
-            let data = filteredArr[indexPath.row]
-            
-            let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
-                self.showAlertMessageWithCancel(title: "삭제 하시겠습니까?", button: "확인") { action in
-                    self.repository.deleteItem(item: data)
-                    
-                    self.fetchRealm()
-                }
-            }
-            action.image = UIImage(systemName: "trash.fill")
-            action.backgroundColor = .systemRed
-            
-            return UISwipeActionsConfiguration(actions: [action])   // 앱 재실행시 데이터가 삭제는 되어있는데 갱신하면서 오류가 나는거 같다??
-        } else {
+        if tableView == mainView.tableView {
             if repository.fetchFilterTrue() > 0 {
                 switch indexPath.section {
                 case 0:
@@ -424,6 +421,25 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                     break
                 }
             }
+        } else {
+            switch indexPath.section {
+            case 0:
+                let data = searchResultVC.tasks[indexPath.row]
+                
+                let action = UIContextualAction(style: .normal, title: "") { action, view, completion in
+                    self.showAlertMessageWithCancel(title: "삭제 하시겠습니까?", button: "확인") { action in
+                        self.repository.deleteItem(item: data)
+                        self.searchResultVC.fetchRealm()
+                        self.fetchRealm()
+                    }
+                }
+                action.image = UIImage(systemName: "trash.fill")
+                action.backgroundColor = .systemRed
+                
+                return UISwipeActionsConfiguration(actions: [action])
+            default:
+                break
+            }
         }
         
         return UISwipeActionsConfiguration(actions: [])
@@ -434,9 +450,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "sectionHeader") as? CustomHeaderView else { return UIView() }
-        if self.isFiltering == true {
-            view.titleLabel.text = "\(filteredArr.count)개의 검색된 메모"
-        } else {
+        
+        if tableView == mainView.tableView {
             if repository.fetchFilterTrue() > 0 {
                 switch section {
                 case 0:
@@ -449,6 +464,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             } else if repository.fetchFilterTrue() == 0 {
                 view.titleLabel.text = "메모"
             }
+        } else {
+            view.titleLabel.text = "\(searchResultVC.tasks.count)개의 검색된 메모"
         }
         
         return view
@@ -463,16 +480,10 @@ extension MainViewController: UISearchResultsUpdating, UISearchControllerDelegat
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text?.lowercased() else { return }
-        //filterText = text
+        filterText = text
         
-        //print(filterText)
-        self.filteredArr = repository.titleSearchFilter(text)
-        fetchRealm()
-        print(filteredArr)
-//        dump(text)
+        searchResultVC.tasks = repository.fetchSearchResult(text: text)
+        searchResultVC.mainView.tableView.reloadData()
     }
-    
-    
-    
     
 }

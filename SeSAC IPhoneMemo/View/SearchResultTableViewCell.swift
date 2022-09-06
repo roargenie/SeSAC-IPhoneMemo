@@ -1,9 +1,10 @@
 
 
+
 import UIKit
 
 
-final class MainTableViewCell: BaseTableViewCell {
+final class SearchResultTableViewCell: BaseTableViewCell {
     
     let titleLabel: UILabel = {
         let view = UILabel()
@@ -63,5 +64,6 @@ final class MainTableViewCell: BaseTableViewCell {
     }
     
 }
+
 
 
